@@ -3,8 +3,6 @@ package com.example.Standards.ControllerTest;
 import com.example.Standards.Model.Users;
 import com.example.Standards.Service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,25 +10,19 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.web.servlet.function.RequestPredicates.accept;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -59,8 +51,22 @@ public class ControllerTest {
         verify(userService).createBulkUser();
     }
 
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
     public void getUsers() throws Exception {
+
+        List<Users> u =  Arrays.asList(
+                new Users("Mohan", "Ajmer", "9090901234", "SM", "1001"),
+                new Users("Amit", "Kolkata", "9093456090", "SM", "1001"));
+
+        when(userService.getUsers()).thenReturn(u);
 
         mockMvc.perform(
                 get("/api/users")
@@ -68,6 +74,8 @@ public class ControllerTest {
                 status().isOk()
         ).andExpect(
                 content().contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                jsonPath("$[0].uName").value("Mohan")
         );
 
         verify(userService).getUsers();
@@ -78,23 +86,42 @@ public class ControllerTest {
 
         Users u = new Users("ADITYA", "UDAIPUR", "9090909090", "SM", "1003");
 
-        when(userService.createUser(u)).thenReturn("Users Created");
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        String requestJson = ow.writeValueAsString(u);
+        //when(userService.createUser(u)).thenReturn("User Created");
 
         mockMvc.perform(
-                post("/api/users/new")
+                        post("/api/users/new")
+                        .content(asJsonString(u))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestJson)
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andDo(
+                print()
+        ).andExpect(
+                status().isOk()
+        );
+
+
+    }
+
+    @Test
+    public void findUserByManager() throws Exception {
+        List<Users> u =  Arrays.asList(
+                new Users("Mohan", "Ajmer", "9090901234", "SM", "1001"),
+                new Users("Amit", "Kolkata", "9093456090", "SM", "1001"));
+
+        when(userService.getUserByUmanager("1001")).thenReturn(u);
+
+        mockMvc.perform(
+                get("/api/users/{manager}", "1001")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        ).andDo(
+                print()
         ).andExpect(
                 status().isOk()
         ).andExpect(
-                content().string(containsString(""))
+                jsonPath("$[0].uManager").value("1001")
         );
 
-        verify(userService).createUser(anyObject());
+
     }
 }

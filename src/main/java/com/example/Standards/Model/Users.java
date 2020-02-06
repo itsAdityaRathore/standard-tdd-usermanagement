@@ -24,6 +24,7 @@ public class Users {
     public Users() {
     }
 
+
     public Users(String uName, String uAddress, String uPhone, String uRole, String uManager) {
         this.uName = uName;
         this.uAddress = uAddress;
