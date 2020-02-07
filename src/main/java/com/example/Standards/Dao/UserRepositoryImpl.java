@@ -2,18 +2,14 @@ package com.example.Standards.Dao;
 
 import com.example.Standards.Model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-public class UserRepositoryImpl {
+public class UserRepositoryImpl implements UserRepositoryCustom {
 
     @Autowired
     UserRepository userRepository;
@@ -21,10 +17,7 @@ public class UserRepositoryImpl {
     @PersistenceContext
     EntityManager entityManager;
 
-    public List<Users> getUserByuManager(String uManager) {
-        return userRepository.findUsersByuManager(uManager);
-    }
-
+    @Override
     public Users searchByUmmanagerAndUid(String umanager, int uid) throws Exception {
         Query query = entityManager.createQuery("select u from Users u where u.uManager = ?1 and u.uId = ?2");
         query.setParameter(1, umanager);
@@ -34,7 +27,7 @@ public class UserRepositoryImpl {
 
     }
 
-    public String createBulkUser() {
+    public String createBulkUser() throws Exception {
         List<Users> usersBulk = Arrays.asList(
                 new Users("Aditya", "Udaipur", "9090909090", "AM", ""),
                 new Users("Mohan", "Ajmer", "9090901234", "SM", "1001"),
@@ -46,15 +39,23 @@ public class UserRepositoryImpl {
                 new Users("Avish", "Goa", "8890656090", "LP", "1006")
         );
 
+        if (usersBulk == null) throw new Exception("Bulk data not Presesnt");
+
         userRepository.saveAll(usersBulk);
         return "Bulk Create Completed";
     }
 
-    public List<Users> getUsers() {
-        return userRepository.findAll();
+    public List<Users> getUsers() throws Exception {
+        try {
+            List<Users> temp = userRepository.findAll();
+            if (temp.size() < 1) throw new Exception("No User Data Available");
+            else return userRepository.findAll();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
-    public String createUser(Users users) {
+    public String createUser(Users users) throws Exception {
         userRepository.save(users);
         return "Users Created";
     }

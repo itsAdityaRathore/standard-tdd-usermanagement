@@ -5,12 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<Users, Integer> {
+public interface UserRepository extends JpaRepository<Users, Integer>, UserRepositoryCustom {
 
-    List<Users> findUsersByuManager(String uManager);
+    List<Users> findUsersByuManager(String uManager) throws Exception;
 
 }
 

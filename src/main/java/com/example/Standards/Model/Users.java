@@ -24,60 +24,11 @@ public class Users {
     public Users() {
     }
 
-
     public Users(String uName, String uAddress, String uPhone, String uRole, String uManager) {
         this.uName = uName;
         this.uAddress = uAddress;
         this.uPhone = uPhone;
         this.uRole = uRole;
-        this.uManager = uManager;
-    }
-
-    public int getuId() {
-        return uId;
-    }
-
-    public void setuId(int uId) {
-        this.uId = uId;
-    }
-
-    public String getuName() {
-        return uName;
-    }
-
-    public void setuName(String uName) {
-        this.uName = uName;
-    }
-
-    public String getuAddress() {
-        return uAddress;
-    }
-
-    public void setuAddress(String uAddress) {
-        this.uAddress = uAddress;
-    }
-
-    public String getuPhone() {
-        return uPhone;
-    }
-
-    public void setuPhone(String uPhone) {
-        this.uPhone = uPhone;
-    }
-
-    public String getuRole() {
-        return uRole;
-    }
-
-    public void setuRole(String uRole) {
-        this.uRole = uRole;
-    }
-
-    public String getuManager() {
-        return uManager;
-    }
-
-    public void setuManager(String uManager) {
         this.uManager = uManager;
     }
 

@@ -12,7 +12,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 import java.util.List;
@@ -86,10 +85,10 @@ public class ControllerTest {
 
         Users u = new Users("ADITYA", "UDAIPUR", "9090909090", "SM", "1003");
 
-        //when(userService.createUser(u)).thenReturn("User Created");
+        when(userService.createUser(anyObject())).thenReturn("User Created");
 
         mockMvc.perform(
-                        post("/api/users/new")
+                post("/api/users/new")
                         .content(asJsonString(u))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
@@ -97,8 +96,11 @@ public class ControllerTest {
                 print()
         ).andExpect(
                 status().isOk()
+        ).andExpect(
+                content().string("User Created")
         );
 
+        verify(userService, times(1)).createUser(anyObject());
 
     }
 

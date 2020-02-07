@@ -1,20 +1,18 @@
 package com.example.Standards.Service;
 
 import com.example.Standards.Model.Users;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 public interface UserService {
 
-    String createBulkUser();
+    String createBulkUser() throws Exception;
 
-    List<Users> getUsers();
+    List<Users> getUsers() throws Exception;
 
-    String createUser(Users users);
+    String createUser(Users users) throws Exception;
 
-    List<Users> getUserByUmanager(String uManager);
+    List<Users> getUserByUmanager(String uManager) throws Exception;
 
     Users getUserByUmanagerAndUid(String umanager, int uid) throws Exception;
 }
