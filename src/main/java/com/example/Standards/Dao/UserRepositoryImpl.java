@@ -29,14 +29,14 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
     public String createBulkUser() throws Exception {
         List<Users> usersBulk = Arrays.asList(
-                new Users("Aditya", "Udaipur", "9090909090", "AM", ""),
-                new Users("Mohan", "Ajmer", "9090901234", "SM", "1001"),
-                new Users("Amit", "Kolkata", "9093456090", "SM", "1001"),
-                new Users("Rahul", "Raipur", "9879609090", "LP", "1002"),
-                new Users("Salim", "Bikaner", "8841909090", "AM", ""),
-                new Users("Parul", "Chennai", "7896909090", "SM", "1005"),
-                new Users("Gaurav", "Himachal", "9980789090", "LP", "1006"),
-                new Users("Avish", "Goa", "8890656090", "LP", "1006")
+                new Users("Aditya", "Udaipur", "9090909090", 1, ""),
+                new Users("Mohan", "Ajmer", "9090901234", 2, "1001"),
+                new Users("Amit", "Kolkata", "9093456090", 2, "1001"),
+                new Users("Rahul", "Raipur", "9879609090", 3, "1002"),
+                new Users("Salim", "Bikaner", "8841909090", 1, ""),
+                new Users("Parul", "Chennai", "7896909090", 2, "1005"),
+                new Users("Gaurav", "Himachal", "9980789090", 3, "1006"),
+                new Users("Avish", "Goa", "8890656090", 3, "1006")
         );
 
         if (usersBulk == null) throw new Exception("Bulk data not Presesnt");
@@ -46,13 +46,16 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     }
 
     public List<Users> getUsers() throws Exception {
-        try {
-            List<Users> temp = userRepository.findAll();
-            if (temp.size() < 1) throw new Exception("No User Data Available");
-            else return userRepository.findAll();
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+//        try {
+//            List<Users> temp = userRepository.findAll();
+//            if (temp.size() < 1) throw new Exception("No User Data Available");
+//            else return temp;
+//        } catch (Exception e) {
+//            throw new Exception(e.getMessage());
+//        }
+
+        System.out.println(userRepository.findAll());
+        return userRepository.findAll();
     }
 
     public String createUser(Users users) throws Exception {

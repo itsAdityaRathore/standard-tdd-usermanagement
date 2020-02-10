@@ -16,20 +16,82 @@ public class Users {
     String uAddress;
     @Column(name = "uphone")
     String uPhone;
+
     @Column(name = "urole")
-    String uRole;
+    int uRole;
+
     @Column(name = "umanager")
     String uManager;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "urole", insertable = false, updatable = false)
+    Roles roles;
 
     public Users() {
     }
 
-    public Users(String uName, String uAddress, String uPhone, String uRole, String uManager) {
+    public Users(String uName, String uAddress, String uPhone, int uRole, String uManager) {
         this.uName = uName;
         this.uAddress = uAddress;
         this.uPhone = uPhone;
         this.uRole = uRole;
         this.uManager = uManager;
+    }
+
+    public int getuId() {
+        return uId;
+    }
+
+    public void setuId(int uId) {
+        this.uId = uId;
+    }
+
+    public String getuName() {
+        return uName;
+    }
+
+    public void setuName(String uName) {
+        this.uName = uName;
+    }
+
+    public String getuAddress() {
+        return uAddress;
+    }
+
+    public void setuAddress(String uAddress) {
+        this.uAddress = uAddress;
+    }
+
+    public String getuPhone() {
+        return uPhone;
+    }
+
+    public void setuPhone(String uPhone) {
+        this.uPhone = uPhone;
+    }
+
+    public int getuRole() {
+        return uRole;
+    }
+
+    public void setuRole(int uRole) {
+        this.uRole = uRole;
+    }
+
+    public String getuManager() {
+        return uManager;
+    }
+
+    public void setuManager(String uManager) {
+        this.uManager = uManager;
+    }
+
+    public Roles getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Roles roles) {
+        this.roles = roles;
     }
 
     @Override

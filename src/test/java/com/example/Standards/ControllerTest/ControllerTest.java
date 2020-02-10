@@ -61,9 +61,9 @@ public class ControllerTest {
     @Test
     public void getUsers() throws Exception {
 
-        List<Users> u =  Arrays.asList(
-                new Users("Mohan", "Ajmer", "9090901234", "SM", "1001"),
-                new Users("Amit", "Kolkata", "9093456090", "SM", "1001"));
+        List<Users> u = Arrays.asList(
+                new Users("Mohan", "Ajmer", "9090901234", 2, "1001"),
+                new Users("Amit", "Kolkata", "9093456090", 2, "1001"));
 
         when(userService.getUsers()).thenReturn(u);
 
@@ -83,7 +83,7 @@ public class ControllerTest {
     @Test
     public void createUser() throws Exception {
 
-        Users u = new Users("ADITYA", "UDAIPUR", "9090909090", "SM", "1003");
+        Users u = new Users("ADITYA", "UDAIPUR", "9090909090", 2, "1003");
 
         when(userService.createUser(anyObject())).thenReturn("User Created");
 
@@ -106,9 +106,9 @@ public class ControllerTest {
 
     @Test
     public void findUserByManager() throws Exception {
-        List<Users> u =  Arrays.asList(
-                new Users("Mohan", "Ajmer", "9090901234", "SM", "1001"),
-                new Users("Amit", "Kolkata", "9093456090", "SM", "1001"));
+        List<Users> u = Arrays.asList(
+                new Users("Mohan", "Ajmer", "9090901234", 2, "1001"),
+                new Users("Amit", "Kolkata", "9093456090", 2, "1001"));
 
         when(userService.getUserByUmanager("1001")).thenReturn(u);
 
